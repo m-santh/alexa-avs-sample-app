@@ -40,7 +40,6 @@ void usage() {
           "WakeWordAgent -e <engine_type>\n" +
           " engine_type options:\n" +
           " 'kitt_ai'\n" +
-          " 'sensory'\n" +
           " 'gpio'\n" +
           "WakeWordAgent [-h] [--help]\n" +
           " prints help (this message)\n";
@@ -70,9 +69,6 @@ bool parseArgs(int argc, char* argv[],
 
   if("kitt_ai" == engineParam) {
     *engineType = WakeWordEngineFactory::EngineType::KITT_AI_SNOWBOY_ENGINE;
-    return true;
-  } else if("sensory" == engineParam) {
-    *engineType = WakeWordEngineFactory::EngineType::SENSORY_ENGINE;
     return true;
   } else if("gpio" == engineParam) {
     *engineType = WakeWordEngineFactory::EngineType::GPIO_ENGINE;

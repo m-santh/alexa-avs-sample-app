@@ -15,7 +15,6 @@
 
 #include "testLogger.h"
 #include "testKittAi.h"
-#include "testSensory.h"
 #include "testIPCFactory.h"
 #include "testGPIO.h"
 #include "unistd.h"
@@ -40,14 +39,6 @@ int main() {
   }
 
   std::cout << " **** Kitt-ai tests passed ok ****" << std::endl;
-
-  // sensory
-  if(!testSensory()) {
-    std::cout << "ERROR testing sensory functionality" << std::endl;
-    return 0;
-  }
-
-  std::cout << " **** Sensory tests passed ok ****" << std::endl;
 
   // GPIO
   if(!testGPIO()) {

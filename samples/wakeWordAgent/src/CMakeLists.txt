@@ -15,7 +15,6 @@ set( WAKE_WORD_AGENT_SOURCE
         WakeWordException.cpp
         KittAiSnowboyWakeWordEngine.cpp
         PortAudioWrapper.cpp
-        SensoryWakeWordEngine.cpp
         GPIOWakeWordEngine.cpp )
 
 set( WAKE_WORD_AGENT_LIBS
@@ -23,7 +22,6 @@ set( WAKE_WORD_AGENT_LIBS
         blas
         portaudio
         asound
-        sensory
         wiringPi )
 
 find_package( Threads )
@@ -31,7 +29,7 @@ set( CMAKE_THREAD_PREFER_PTHREAD TRUE )
 
 add_executable( wakeWordAgent ${WAKE_WORD_AGENT_SOURCE} )
 
-set_target_properties( wakeWordAgent PROPERTIES COMPILE_FLAGS "-std=c++11" )
+set_target_properties( wakeWordAgent PROPERTIES COMPILE_FLAGS "-std=c++11 -D_GLIBCXX_USE_CXX11_ABI=0" )
 
 target_include_directories( wakeWordAgent PRIVATE ${CMAKE_SOURCE_DIR}/../ext/include )
 
@@ -46,6 +44,4 @@ add_library( portaudio STATIC IMPORTED )
 set_target_properties( portaudio PROPERTIES IMPORTED_LOCATION
   ${CMAKE_SOURCE_DIR}/../ext/lib/libportaudio.a )
 
-add_library( sensory STATIC IMPORTED )
-set_target_properties( sensory PROPERTIES IMPORTED_LOCATION
-  ${CMAKE_SOURCE_DIR}/../ext/lib/libsnsr.a )
+

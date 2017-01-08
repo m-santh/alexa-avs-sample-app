@@ -13,6 +13,7 @@ ClientID=YOUR_CLIENT_ID_HERE
 # Retrieve your client secret from the web settings tab within the developer console: https://developer.amazon.com/edw/home.html
 ClientSecret=YOUR_CLIENT_SECRET_HERE
 
+
 #-------------------------------------------------------
 # No need to change anything below this...
 #-------------------------------------------------------
@@ -24,9 +25,9 @@ ClientSecret=YOUR_CLIENT_SECRET_HERE
 # Your Country. Must be 2 characters!
 Country='US'
 # Your state. Must be 2 or more characters.
-State='WA'
+State='CA'
 # Your city. Cannot be blank.
-City='SEATTLE'
+City='SAN_FRANCISCO'
 # Your organization name/company name. Cannot be blank.
 Organization='AVS_USER'
 # Your device serial number. Cannot be blank, but can be any combination of characters.
@@ -360,7 +361,7 @@ if [ "$USER_RESPONSE" = "$NO_ANSWER" ]; then
 fi
 
 # Preconfigured variables
-OS=rpi
+OS=ubuntu64
 User=$(id -un)
 Group=$(id -gn)
 Origin=$(pwd)
@@ -369,11 +370,9 @@ Java_Client_Loc=$Samples_Loc/javaclient
 Wake_Word_Agent_Loc=$Samples_Loc/wakeWordAgent
 Companion_Service_Loc=$Samples_Loc/companionService
 Kitt_Ai_Loc=$Wake_Word_Agent_Loc/kitt_ai
-Sensory_Loc=$Wake_Word_Agent_Loc/sensory
 External_Loc=$Wake_Word_Agent_Loc/ext
 
 mkdir $Kitt_Ai_Loc
-mkdir $Sensory_Loc
 mkdir $External_Loc
 
 echo ""
@@ -412,10 +411,6 @@ sudo apt-get install -y git
 echo "========== Getting the code for Kitt-Ai ==========="
 cd $Kitt_Ai_Loc
 git clone https://github.com/Kitt-AI/snowboy.git
-
-echo "========== Getting the code for Sensory ==========="
-cd $Sensory_Loc
-git clone https://github.com/Sensory/alexa-rpi.git
 
 cd $Origin
 
@@ -518,11 +513,6 @@ cp $Kitt_Ai_Loc/snowboy/examples/C++/portaudio/install/lib/libportaudio.a $Exter
 cp $Kitt_Ai_Loc/snowboy/resources/common.res $External_Loc/resources/common.res
 cp $Kitt_Ai_Loc/snowboy/resources/alexa.umdl $External_Loc/resources/alexa.umdl
 
-$Sensory_Loc/alexa-rpi/bin/sdk-license file $Sensory_Loc/alexa-rpi/config/license-key.txt $Sensory_Loc/alexa-rpi/lib/libsnsr.a $Sensory_Loc/alexa-rpi/models/spot-alexa-rpi-20500.snsr $Sensory_Loc/alexa-rpi/models/spot-alexa-rpi-21000.snsr $Sensory_Loc/alexa-rpi/models/spot-alexa-rpi-31000.snsr
-cp $Sensory_Loc/alexa-rpi/include/snsr.h $External_Loc/include/snsr.h
-cp $Sensory_Loc/alexa-rpi/lib/libsnsr.a $External_Loc/lib/libsnsr.a
-cp $Sensory_Loc/alexa-rpi/models/spot-alexa-rpi-31000.snsr $External_Loc/resources/spot-alexa-rpi.snsr
-
 mkdir $Wake_Word_Agent_Loc/tst/ext
 cp -R $External_Loc/* $Wake_Word_Agent_Loc/tst/ext
 cd $Origin
@@ -551,7 +541,6 @@ echo "Run the companion service: cd $Companion_Service_Loc && npm start"
 echo "Run the AVS Java Client: cd $Java_Client_Loc && mvn exec:exec"
 if [ "$Wake_Word_Detection_Enabled" = "true" ]; then
   echo "Run the wake word agent: "
-  echo "  Sensory: cd $Wake_Word_Agent_Loc/src && ./wakeWordAgent -e sensory"
   echo "  KITT_AI: cd $Wake_Word_Agent_Loc/src && ./wakeWordAgent -e kitt_ai"
   echo "  GPIO: PLEASE NOTE -- If using this option, run the wake word agent as sudo:"
   echo "  cd $Wake_Word_Agent_Loc/src && sudo ./wakeWordAgent -e gpio"
